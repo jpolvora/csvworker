@@ -66,8 +66,16 @@ class CsvWorker
   {
     $result = array();
     $cols = count($row);
+    $current_col = 0;
     foreach ($mapping as $map) {
+      if (array_key_exists('setvalue', $map)) {
+        $val = $map['setvalue'];
+        array_push($result, $val);
+        continue;
+      }
+      if (!array_key_exists('src', $map)) throw new Exception('\'src\' is required in mapping config in col ' . $current_col);
       $src_index = $map['src'];
+
       if ($src_index >= $cols) continue;
       $col = $row[$src_index];
       if (array_key_exists('transform', $map)) {
@@ -114,6 +122,17 @@ class CsvWorker
           }
           $defval = $map['default'];
           $col = $defval;
+        }
+      }
+
+      if (array_key_exists('padding', $map)) {
+        $padding = $map['padding'];
+        if ($padding === true) {
+          $maxlen = $map['maxlength'];
+          $col_length = strlen($col);
+          if ($col_length < (int) $maxlen) {
+            $col = str_pad($col, $maxlen, ' ');
+          }
         }
       }
 
