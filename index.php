@@ -10,7 +10,7 @@
  */
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/CsvWorker.php';
+require __DIR__ . '/src/CsvWorker.php';
 
 if (count($argv) < 2) {
   die('Faltando parametro obrigatório: arquivo de configuração config.json ');
@@ -19,4 +19,5 @@ if (count($argv) < 2) {
 var_dump($argv);
 $worker = new CsvWorker(__DIR__ . DIRECTORY_SEPARATOR . $argv[1]);
 $worker->run();
+echo "successo na conversão." . PHP_EOL;
 $worker->dispose();
