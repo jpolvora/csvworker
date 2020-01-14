@@ -50,6 +50,11 @@ Exemplo:
       "index": 3,
       "header": "Vendedor",
       "setvalue": "00000"
+    },
+    {
+      "index": 9,
+      "header": "Endereço",
+      "src": [15, 16, 17, 18]
     }
   ]
 }
@@ -70,6 +75,7 @@ Exemplo:
 - `maxlength`: Tamanho máximo da string. Será usado `substr` caso necessário.
 - `minlength`: Tamanho mínimo da string. Será usado `str_pad` caso necessário.
 - `transform`: Opções de transformação entre origem e destino.
+- `src`: Id da coluna ou array com ids de coluna a serem concatenados
 - etc.
 
 Com o PHP instalado no path, execute o arquivo index.php passando como parâmetro o arquivo de configuração `.json` criado:

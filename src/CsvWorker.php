@@ -84,8 +84,16 @@ class CsvWorker
       if (!array_key_exists('src', $map)) throw new Exception('\'src\' is required in mapping config in col ' . $current_col);
       $src_index = $map['src'];
 
-      if ($src_index >= $cols) continue;
-      $col = $row[$src_index];
+      $col = null;
+      if (is_array($src_index)) {
+        $col = '';
+        foreach ($src_index as $idx) {
+          $col .= ' ' . $row[$idx];
+        }
+      } else if (is_integer($src_index)) {
+        $col = $row[$src_index];
+      } else throw new Exception("src should be either integer or array of integers");
+
       if (array_key_exists('transform', $map)) {
         switch ($map['transform']) {
           case "uppercase":
