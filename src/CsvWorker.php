@@ -89,6 +89,9 @@ class CsvWorker
           case "only_numbers":
             $col = filter_var($col, FILTER_SANITIZE_NUMBER_INT);
             break;
+          case "trim":
+            $col = trim($col);
+            break;
           default:
             break;
         }
