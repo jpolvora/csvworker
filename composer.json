@@ -1,0 +1,13 @@
+{
+    "name": "jone/csv-work",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jone Pólvora",
+            "email": "jpolvora@gmail.com"
+        }
+    ],
+    "require": {
+        "keboola/csv": "^2.1"
+    }
+}
