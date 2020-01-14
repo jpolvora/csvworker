@@ -26,10 +26,17 @@ class CsvWorker
   {
     $this->parseConfig();
 
-    $csvReader = new Keboola\Csv\CsvReader($this->config['input'], $this->delimiter, "", "", $this->config['skip_lines']);
+    $csvReader = new Keboola\Csv\CsvReader($this->config['input'], $this->delimiter, "", "", (int) $this->config['skip_lines']);
     $csvWriter = new Keboola\Csv\CsvWriter($this->config['output'], $this->delimiter, "");
 
+    uasort($this->config['mapping'], function ($item, $compare) {
+      if (!array_key_exists('index', $item) || !array_key_exists('index', $compare)) throw new Exception("Missing 'index' option in map.");
+      if (!is_int($item['index']) || !is_int($compare['index'])) throw new Exception("'index' option should be integer in map.");
+      return (int) $item['index'] >= (int) $compare['index'];
+    });
+
     $mapping = $this->config['mapping'];
+
     $line = 0;
     $error_message = '';
     foreach ($csvReader as $row) {
@@ -68,6 +75,7 @@ class CsvWorker
     $cols = count($row);
     $current_col = 0;
     foreach ($mapping as $map) {
+      //echo $map['index'] . PHP_EOL;
       if (array_key_exists('setvalue', $map)) {
         $val = $map['setvalue'];
         array_push($result, $val);
